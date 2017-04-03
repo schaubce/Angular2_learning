@@ -9,15 +9,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //provides boundaries within our application
 var core_1 = require("@angular/core");
 var platform_browser_1 = require("@angular/platform-browser");
-var forms_1 = require("@angular/forms");
 var http_1 = require("@angular/http");
 var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
 var welcome_component_1 = require("./home/welcome.component");
-var product_detail_component_1 = require("./products/product-detail.component");
-var product_list_component_1 = require("./products/product-list.component");
-var product_filter_pipe_1 = require("./products/product-filter.pipe");
-var star_component_1 = require("./shared/star.component");
+var product_module_1 = require("./products/product.module");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -26,27 +22,28 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         //importing metadata
-        imports: [platform_browser_1.BrowserModule,
-            forms_1.FormsModule,
+        imports: [
+            //ng if, ngfor and registers critical service modules
+            platform_browser_1.BrowserModule,
+            //register http service provider
             http_1.HttpModule,
             //later we can factor this into multiple modules
             //remember that order matters for these routes
             router_1.RouterModule.forRoot([
-                { path: 'products', component: product_list_component_1.ProductListComponent },
-                { path: 'product/:id', component: product_detail_component_1.ProductDetailComponent },
                 { path: 'welcome', component: welcome_component_1.WelcomeComponent },
                 { path: '', redirectTo: 'welcome', pathMatch: 'full' },
                 //wildcard
                 { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
-            ])
+            ]),
+            //feature modules
+            product_module_1.ProductModule
         ],
-        declarations: [app_component_1.AppComponent,
-            product_list_component_1.ProductListComponent,
-            product_filter_pipe_1.ProductFilterPipe,
-            star_component_1.StarComponent,
-            welcome_component_1.WelcomeComponent,
-            product_detail_component_1.ProductDetailComponent
+        //list of components that belong to this module
+        declarations: [
+            app_component_1.AppComponent,
+            welcome_component_1.WelcomeComponent
         ],
+        //identifies the root component as the app component
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);
